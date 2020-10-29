@@ -1,12 +1,33 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0-SNAPSHOT"
+    }
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+//    id 'io.gitlab.arturbosch.detekt' version '1.14.2'
+}
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
 
 repositories {
-    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+        txt.enabled = true
+        sarif.enabled = true
+    }
 }
 
 dependencies {
